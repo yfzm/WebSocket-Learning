@@ -94,7 +94,9 @@
         var local_msg = $("#msg").val();
         stompClient.send("/app/msg/hellosingle", {}, JSON.stringify({'msg': local_msg, 'sender': 'user1', 'receiver': 'user2'}));
         $("#greetings").append("<tr><td>" + "Me: " + local_msg + "</td></tr>");
-
+        stompClient.subscribe('/topic/notice', function (msg) {
+            showGreeting("系统消息: " + msg.body)
+        });
     }
 
 

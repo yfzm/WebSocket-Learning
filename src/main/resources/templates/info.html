@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Info Page</title>
+
+    <script src="/js/sockjs-0.3.4.min.js"></script>
+    <script src="/js/stomp.js"></script>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+
+<p id="msg">没有消息</p>
+
+
+<script>
+    var noticeSocket = function () {
+        var s = new SockJS('/socket');
+        var stompClient = Stomp.over(s);
+        stompClient.connect({}, function () {
+            console.log('notice socket connected!');
+            stompClient.subscribe('/topic/notice', function (data) {
+                $('#msg').html(data.body);
+            });
+        });
+    };
+    noticeSocket();
+</script>
+
+</body>
+</html>
